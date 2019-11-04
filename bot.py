@@ -30,6 +30,8 @@ def send_message(message):
 responses = {
     "Hello": "Hi :)",
     "hello": "hi :)",
+    "Hi": "Hi :)",
+    "hi": "Hi :)",
     "What is your name?": "My Name is {0}".format(name),
     "What's your name?": "My Name is {0}".format(name),
     "what is your name?": "My Name is {0}".format(name),

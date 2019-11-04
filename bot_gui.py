@@ -36,11 +36,9 @@ def showMenu(e):
 def onExit():
     quit()
 
-
 def onReset():
     # reset msg box
     quit()
-
 
 root = Tk()
 root.geometry("320x450")
@@ -73,9 +71,9 @@ rightclickMenu.add_command(label="Exit", command=onExit)
 root.bind("<Button-3>", showMenu)
 
 frame1 = Frame(root)
-frame1.pack(fill=BOTH)
+frame1.pack(fill=BOTH, side=TOP)
 
-msgBox = Message(frame1, text=bot_Reply)
+msgBox = Label(frame1, text=bot_Reply)
 msgBox.pack(side=LEFT)
 
 frame2 = Frame(root)
