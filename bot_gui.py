@@ -6,6 +6,9 @@ typed_request = ""
 
 bot_Reply = ""
 
+bot_template = "SPOS : {0}"
+user_template = "USER : {0}"
+
 
 def getText():
     typed_request = str(userEntry.get())
@@ -17,16 +20,28 @@ def sendRequest():
     req = getText()
     response = getResponse(req)
     clear_Text()
-
-    return response
+    ShowChat(user_template.format(req))
+    print(req)
+    print(response)
+    ShowChat(response)
 
 
 def clear_Text():
     userEntry.delete(first=0, last=100)
 
 
-def showData():
-    bot_Reply = sendRequest()
+def ShowChat(msg):
+    displayBox.configure(state=NORMAL)
+    displayBox.insert(END, msg + '\n')
+    displayBox.configure(state=DISABLED)
+
+
+# showData():
+    # ShowChat(user_template.format(getText()))
+    # print(user_template.format(getText()))
+    # bot_Reply = str(sendRequest())
+    # bot_Reply = bot_template.format(bot_Reply)
+    # ShowChat(bot_Reply)
 
 
 def showMenu(e):
@@ -36,12 +51,16 @@ def showMenu(e):
 def onExit():
     quit()
 
+
 def onReset():
     # reset msg box
-    quit()
+    # quit()
+    clear_Text()
+    displayBox.delete(0, END)
+
 
 root = Tk()
-root.geometry("320x450")
+root.geometry("320x410")
 root.title('SPOS')
 
 # frame = Frame(root)
@@ -73,8 +92,10 @@ root.bind("<Button-3>", showMenu)
 frame1 = Frame(root)
 frame1.pack(fill=BOTH, side=TOP)
 
-msgBox = Label(frame1, text=bot_Reply)
-msgBox.pack(side=LEFT)
+scrollbar = Scrollbar(frame1)
+displayBox = Text(frame1, wrap='word', yscrollcommand=scrollbar.set, state=DISABLED)
+scrollbar.configure(command=displayBox.yview)
+displayBox.pack(side=LEFT, fill=BOTH)
 
 frame2 = Frame(root)
 frame2.pack(side=BOTTOM, fill=X)

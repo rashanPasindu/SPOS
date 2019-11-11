@@ -1,5 +1,5 @@
 import re
-
+import NmapScans
 bot_template = "SPOS : {0}"
 user_template = "USER : {0}"
 
@@ -7,7 +7,13 @@ name = "SPOS"
 
 
 def getResponse(msg):
-    send_message(msg)
+    reply = send_message(msg)
+
+    return reply
+
+
+def initiate_nmapScan(ip):
+    NmapScans.initiate_scan(ip)
 
 
 def check_special_command(message):
@@ -28,12 +34,14 @@ def check_special_command(message):
 def respond(message):
     if message in responses:
         bot_message = responses[message]
-    elif message in commands:
+
+    elif message not in commands:
 
         if check_special_command(message) is True:
-            bot_message = commands[message]
+            initiate_nmapScan(message)
+            bot_message = commands["Valid"]
         else:
-            bot_message = commands['invalid IP']
+            bot_message = commands["Invalid IP"]
     else:
         bot_message = responses["default"]
 
@@ -41,12 +49,12 @@ def respond(message):
 
 
 def send_message(message):
-    print(user_template.format(message))
-
+    # print(user_template.format(message))
     response = respond(message)
-    print(bot_template.format(response))
+    # print(bot_template.format(response))
 
     response = bot_template.format(response)
+
     return response
 
 
@@ -59,17 +67,19 @@ responses = {
     "What's your name?": "My Name is {0}".format(name),
     "what is your name?": "My Name is {0}".format(name),
     "what's your name?": "My Name is {0}".format(name),
+    "Run Scan": "Please specify the Scan Type \n Nmap Scan or Metasploit Scan",
+    "run scan": "Please specify the Scan Type \n Nmap Scan or Metasploit Scan",
+    "Run Scans": "Please specify the Scan Type \n Nmap Scan or Metasploit Scan",
+    "run scans": "Please specify the Scan Type \n Nmap Scan or Metasploit Scan",
+    "Nmap Scan": "Please Specify the Host Address",
+    "Metasploit Scan": "Please Specify the Host Address",
     "default": "Sorry I didn't understand, Please say it again"
 }
 
 commands = {
-    "Run Scan": "Please specify the Scan Type /n Nmap Scan or Metasploit Scan",
-    "run scan": "Please specify the Scan Type",
-    "Run Scans": "Please specify the Scan Type",
-    "run scans": "Please specify the Scan Type",
-    "Nmap Scan": "Please Specify the Host Address",
-    "Metasploit Scan": "Please Specify the Host Address",
+
     "Invalid IP": "Please provide a correct IP.",
+    "Valid": "Scanning is Done",
     "default": "Please say it again!"
 
 }
