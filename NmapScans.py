@@ -1,18 +1,8 @@
 import nmap
 import sys
 import socket
-import xlwt
-from xlwt import Workbook
+
 import sendDataTOdb as db
-
-wrkbk = Workbook()
-
-
-# def createReport(ip, data, iterative):
-# sheet1 = wrkbk.add_sheet('Nmap Scan Results for IP: ' + ip)
-
-# if sheet1 is not None:
-# sheet1.write(iterative, )
 
 
 def initiate_scan(ip):

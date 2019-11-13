@@ -1,6 +1,10 @@
+import os
+import shutil
 from tkinter import *
-
 from bot import getResponse
+from reportScan import run
+import reportMalCLassy as classymal
+import csv
 
 typed_request = ""
 
@@ -56,7 +60,21 @@ def onReset():
     # reset msg box
     # quit()
     clear_Text()
-    displayBox.delete(0, END)
+    displayBox.delete('1.0', END)
+
+
+def runReport():
+    run()
+    msg = "Report Generation Succeeded! \n Please find the generated report on your Desktop"
+    msg = bot_template.format(msg)
+    ShowChat(msg)
+
+
+def runReportMalClassy():
+    classymal.run()
+    msg = "Report Generation Succeeded! \n Please find the generated report on your Desktop"
+    msg = bot_template.format(msg)
+    ShowChat(msg)
 
 
 root = Tk()
@@ -71,8 +89,8 @@ root.config(menu=menuBar)
 reportMenu = Menu(menuBar)
 
 submenuReport = Menu(reportMenu)
-submenuReport.add_command(label="Nmap Scan Reports")
-submenuReport.add_command(label="Metasploit Reports")
+submenuReport.add_command(label="Nmap Scan Reports", command=runReport)
+submenuReport.add_command(label="Vulnerability Scan Reports")
 submenuReport.add_command(label="System Rating")
 
 reportMenu.add_separator()
@@ -80,7 +98,7 @@ reportMenu.add_separator()
 reportMenu.add_cascade(label="Scan Report", menu=submenuReport, underline=0)
 reportMenu.add_command(label="Detection Report", command='')
 reportMenu.add_command(label="DLP Report", command='')
-reportMenu.add_command(label="Malware Classifications", command='')
+reportMenu.add_command(label="Malware Classifications", command=runReportMalClassy)
 menuBar.add_cascade(label="Reports", menu=reportMenu)
 menuBar.add_cascade(label="Reset")
 
